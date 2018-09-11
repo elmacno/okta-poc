@@ -1,0 +1,12 @@
+{
+    "name": "vagrant/www",
+    "require": {
+        "lcobucci/jwt": "^3.2"
+    },
+    "authors": [
+        {
+            "name": "Matias Calcagno",
+            "email": "matias.calcagno@endava.com"
+        }
+    ]
+}
