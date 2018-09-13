@@ -1,32 +1,51 @@
-<?php 
+<?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
-define("APPLICATION_ROOT", \realpath(__DIR__ . "/.."));
-
-$jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzNDU2Nzg5MCIsImZpcnN0X25hbWUiOiJNYXRpYXMiLCJsYXN0X25hbWUiOiJDYWxjYWdubyJ9.oP6bHbrJRfmUlzmXFIzg1Emcp-7qP8a90fszYOj8j2M';
+require '../vendor/autoload.php';
 
 use Lcobucci\JWT\Parser;
 
-$token = (new Parser())->parse((string) $jwt);
-$token->getHeaders();
-$token->getClaims();
+// Begin the PHP session so we have a place to store the username
+session_start();
+
+$token = null;
+
+if (!isset($_SESSION['access_token'])) {
+  header("Location: /login");
+  die();
+} else {
+  $token = (new Parser())->parse((string) $_SESSION['access_token']); // Parses from a string
+  $token->getHeaders(); // Retrieves the token header
+  $token->getClaims(); // Retrieves the token claims
+}
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Main Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <p>user id: <?= $token->getClaim('user_id') ?></p>
-    <p>first name: <?= $token->getClaim('first_name') ?></p>
-    <p>last name: <?= $token->getClaim('last_name') ?></p>
+  <?php if ($token) { ?>
+    <h4>Token Claims</h4>
+    <ul>
+      <li><strong>JTI: </strong><?= $token->getClaim('jti') ?></li>
+      <li><strong>ISS: </strong><?= $token->getClaim('iss') ?></li>
+      <li><strong>AUD: </strong><?= $token->getClaim('aud') ?></li>
+      <li><strong>IAT: </strong><?= $token->getClaim('iat') ?></li>
+      <li><strong>EXP: </strong><?= $token->getClaim('exp') ?></li>
+      <li><strong>CID: </strong><?= $token->getClaim('cid') ?></li>
+      <li><strong>UID: </strong><?= $token->getClaim('uid') ?></li>
+      <li><strong>SCP: </strong><?= $token->getClaim('scp') ?></li>
+      <li><strong>SUB: </strong><?= $token->getClaim('sub') ?></li>
+    </ul>
+    <a href="/logout">Log out</a>
+  <?php } else { ?>
+    <p>Not Logged In</P>
+    <a href="/login">Log in</a>
+  <?php } ?>
 </body>
 </html>

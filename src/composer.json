@@ -1,7 +1,9 @@
 {
     "name": "vagrant/www",
     "require": {
-        "lcobucci/jwt": "^3.2"
+        "lcobucci/jwt": "^3.2",
+        "league/oauth2-client": "^2.3",
+        "paragonie/random_compat": "<9.99"
     },
     "authors": [
         {
