@@ -14,7 +14,7 @@ $user = new \Okta\Users\User();
 try{
     // throw a ResourceException if it doesn't found the user
     $foundUser = $user->get('auser@example.com');
-    var_dump($foundUser->deactivate());
+    var_dump($foundUser->activate());
 } catch (Exception $e) {
     //TODO manage exception
 }
