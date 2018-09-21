@@ -12,10 +12,7 @@ $client = $builder
 $user = new \Okta\Users\User();
 $okta = new \Okta\Okta();
 
-
-//getLogs
 try{
-    // throw a ResourceException if it doesn't found the user
     $foundUser = $user->get('manuel.bertelli@eagleview.com');
     $userProfile = $foundUser->getProfile();
     $userDisplayName = $userProfile->getFirstName() . " " . $userProfile->getLastName();
@@ -44,7 +41,7 @@ try{
 
     <tr>
       <td> <?php echo ($l->getActor()->getDisplayName());  ?> </td>
-      <td> <?php echo ($l->getOutcome());  ?> </td>
+      <td> <?php echo ($l->getOutcome()->getResult());  ?> </td>
     </tr>
 
 
@@ -69,7 +66,7 @@ try{
 
     <tr>
       <td> <?php echo ($l->getActor()->getDisplayName());  ?> </td>
-      <td> <?php echo ($l->getOutcome());  ?> </td>
+      <td> <?php echo ($l->getOutcome()->getResult());  ?> </td>
     </tr>
 
 
